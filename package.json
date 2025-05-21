@@ -3,12 +3,23 @@
   "version": "1.0.0",
   "description": "A unified interface for multiple TTS services",
   "main": "dist/index.js",
+  "type": "module",
   "scripts": {
-    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "build": "tsc -p tsconfig.json && tsup src/index.ts --format esm,cjs --dts --sourcemap --out-dir dist",
+    "start": "node dist/index.js",
     "test": "npm run build && node dist/test/index.test.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.5.2"
+  "packageManager": "pnpm@10.0.0",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.4"
+  }
 }

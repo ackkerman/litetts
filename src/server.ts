@@ -1,15 +1,29 @@
 import http from 'http';
-import { providers } from './providers';
+import { providers, schemas } from './providers';
 
 export function createApp(): any {
   return http.createServer((req: any, res: any) => {
     const url = new URL(req.url ?? '/', 'http://localhost');
+
+    if (req.method === 'GET' && url.pathname === '/healthz') {
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({ status: 'ok' }));
+      return;
+    }
+
+    if (req.method === 'GET' && url.pathname === '/v1/schema') {
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify(schemas, null, 2));
+      return;
+    }
+
     if (req.method === 'GET' && url.pathname === '/v1/providers') {
       const names = Object.keys(providers);
       res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify({ providers: names }));
       return;
     }
+
     if (req.method === 'GET' && url.pathname === '/v1/voices') {
       const provider = providers[url.searchParams.get('provider') ?? ''];
       if (!provider) {
@@ -23,6 +37,7 @@ export function createApp(): any {
       });
       return;
     }
+
     if (req.method === 'GET' && url.pathname === '/v1/status') {
       const result: Record<string, string> = {};
       const entries = Object.entries(providers);
@@ -38,6 +53,7 @@ export function createApp(): any {
       });
       return;
     }
+
     if (req.method === 'POST' && url.pathname === '/v1/tts') {
       let body = '';
       req.on('data', (chunk: any) => (body += chunk));
@@ -72,6 +88,7 @@ export function createApp(): any {
       });
       return;
     }
+
     res.statusCode = 404;
     res.end('not found');
   });

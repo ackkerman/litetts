@@ -10,3 +10,5 @@ export const providers: Record<string, Provider> = {
   watson,
   voicevox
 };
+
+export { schemas } from './schemas';

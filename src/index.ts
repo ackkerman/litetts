@@ -5,3 +5,5 @@ export function hello(name: string): string {
 export function main(): void {
   console.log(hello('world'));
 }
+
+export { createApp } from './server';

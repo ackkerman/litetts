@@ -45,6 +45,7 @@ test('list providers', async () => {
   const data = JSON.parse(res.body);
   assert.deepStrictEqual(Object.keys(data), ['providers']);
   assert.ok(Array.isArray(data.providers));
+  assert.ok(data.providers.includes('polly'));
   server.close();
 });
 
@@ -56,5 +57,16 @@ test('synthesize openai', async () => {
   const data = JSON.parse(res.body);
   assert.ok(typeof data.audioUrl === 'string');
   assert.ok(data.audioUrl.startsWith('https://example.com/openai-'));
+  server.close();
+});
+
+test('synthesize polly', async () => {
+  const server = createApp().listen(0);
+  const port = (server.address() as any).port;
+  const res = await post(port, '/v1/tts', { provider: 'polly', text: 'hi' });
+  assert.strictEqual(res.status, 200);
+  const data = JSON.parse(res.body);
+  assert.ok(typeof data.audioUrl === 'string');
+  assert.ok(data.audioUrl.startsWith('https://example.com/polly-'));
   server.close();
 });

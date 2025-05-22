@@ -1,4 +1,4 @@
-import { Provider, Voice, SynthesizeOptions } from './types';
+import { Provider, Voice, SynthesizeOptions } from './types.js';
 
 const voices: Voice[] = [
   { id: 'nova', lang: 'en-US', gender: 'female' },

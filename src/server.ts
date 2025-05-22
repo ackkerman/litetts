@@ -1,5 +1,5 @@
 import http from 'http';
-import { providers, schemas } from './providers';
+import { providers, schemas } from './providers/index.js';
 
 export function createApp(): any {
   return http.createServer((req: any, res: any) => {

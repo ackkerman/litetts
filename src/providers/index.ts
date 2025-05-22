@@ -1,8 +1,8 @@
-import { Provider } from './types';
-import { openai } from './openai';
-import { google } from './google';
-import { watson } from './watson';
-import { voicevox } from './voicevox';
+import { Provider } from './types.js';
+import { openai } from './openai.js';
+import { google } from './google.js';
+import { watson } from './watson.js';
+import { voicevox } from './voicevox.js';
 
 export const providers: Record<string, Provider> = {
   openai,
@@ -11,4 +11,4 @@ export const providers: Record<string, Provider> = {
   voicevox
 };
 
-export { schemas } from './schemas';
+export { schemas } from './schemas.js';

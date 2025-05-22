@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LiteTTS Demo</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    textarea { width: 100%; }
+  </style>
+</head>
+<body>
+  <h1>LiteTTS Demo</h1>
+  <label for="provider">Provider:</label>
+  <select id="provider"></select>
+  <br/>
+  <label for="text">Text:</label>
+  <textarea id="text" rows="4"></textarea>
+  <br/>
+  <button id="speak">Speak</button>
+  <audio id="audio" controls style="display:block;margin-top:1rem"></audio>
+
+  <script>
+    const apiBase = 'http://localhost:3000';
+    fetch(`${apiBase}/v1/providers`)
+      .then(r => r.json())
+      .then(data => {
+        const select = document.getElementById('provider');
+        data.providers.forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p;
+          opt.textContent = p;
+          select.appendChild(opt);
+        });
+      });
+
+    document.getElementById('speak').addEventListener('click', () => {
+      const provider = document.getElementById('provider').value;
+      const text = document.getElementById('text').value;
+      fetch(`${apiBase}/v1/tts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ provider, text })
+      })
+        .then(r => r.json())
+        .then(data => {
+          const audio = document.getElementById('audio');
+          audio.src = data.audioUrl;
+          audio.play();
+        });
+    });
+  </script>
+</body>
+</html>

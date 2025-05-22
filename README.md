@@ -16,3 +16,9 @@ The server exposes a minimal REST API:
 - `GET /v1/status` – check provider status.
 
 These endpoints return stub data in the current implementation.
+
+## Frontend Example
+
+The `example` directory contains a small React application built with Vite. It
+demonstrates how to call the LiteTTS API from the browser. See
+`example/README.md` for setup instructions.

@@ -38,7 +38,18 @@ export const schemas = {
       properties: {
         voices: {
           type: 'array',
-          items: { type: 'string' } // 必要に応じて voice オブジェクトに拡張可
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              displayName: { type: 'string' },
+              languageTag: { type: 'string' },
+              gender: { type: 'string', nullable: true },
+              meta: { type: 'object', nullable: true }
+            },
+            required: ['id', 'displayName', 'languageTag'],
+            additionalProperties: false
+          }
         }
       },
       required: ['voices'],
@@ -61,9 +72,19 @@ export const schemas = {
         provider: { type: 'string' },
         text: { type: 'string' },
         language: { type: 'string', nullable: true },
-        voice: { type: 'string', nullable: true },
-        outputFormat: { type: 'string', nullable: true },
-        options: { type: 'object', nullable: true }
+        voiceId: { type: 'string', nullable: true },
+        options: {
+          type: 'object',
+          properties: {
+            rate: { type: 'number', nullable: true },
+            pitch: { type: 'number', nullable: true },
+            emotion: { type: 'string', nullable: true },
+            format: { type: 'string', nullable: true },
+            providerExtra: { type: 'object', nullable: true }
+          },
+          additionalProperties: false,
+          nullable: true
+        }
       },
       required: ['provider', 'text'],
       additionalProperties: false
